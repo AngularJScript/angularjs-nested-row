@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="helloApp">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>Hello AngularJS - Hello World</title>
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+
+        <script>
+            var helloApp = angular.module("helloApp", []);
+            helloApp.controller("HelloCtrl", function($scope) {
+                $scope.datas = [{label: 1, name: ''}];
+                $scope.addRow = function(i) {
+                    $scope.datas.splice(i + 1, 0, {
+                        label: $scope.datas.length + 1
+                    });
+                };
+                $scope.removeRow = function(i) {
+                    $scope.datas.splice(i, 1);
+                };
+                
+                $scope.submitForm = function(){
+                    $scope.result = $scope.datas;
+                }
+            });
+        </script>
+
+    </head>
+    <body ng-controller="HelloCtrl">
+        <form name="productForm" class="form-horizontal" novalidate ng-submit="productForm.$valid && submitForm()">
+            <div class="col-lg-12" ng-repeat="data in datas">
+                <div class="col-md-9 row">
+                    <input type="text" class="form-control" name="product_name" ng-model="data.name" required="" />
+                    <div ng-show="productForm.$submitted || productForm.product_name.$touched">
+                        <span ng-show="productForm.product_name.$error.required" style="color:red;">Product name is required.</span>
+                    </div>
+                </div>
+                <div class="col-md-3 row">
+                    <a href="" ng-click="addRow($index);" class="m-t">
+                        <i class="fa fa-plus-circle"></i>
+                    </a>
+                    <a href="" ng-if="datas.length > 1" ng-click="removeRow($index);" class="m-t">
+                        <i class="fa fa-minus-circle"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-w-m btn-success">Submit</button>
+            </div>
+            <div class="col-lg-12">
+                <pre ng-if="result">{{result | json}}</pre>
+            </div>
+        </form>
+    </body>
+</html>	
